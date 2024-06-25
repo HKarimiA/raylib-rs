@@ -95,14 +95,14 @@ pub extern "C" fn custom_trace_log_callback(
     }
 }
 
-extern "C" fn custom_save_file_data_callback(a: *const u8, b: *mut c_void, c: i32) -> bool {
+extern "C" fn custom_save_file_data_callback(a: *const i8, b: *mut c_void, c: i32) -> bool {
     let save_file_data = save_file_data_callback().unwrap();
     let a = unsafe { CStr::from_ptr(a) };
     let b = unsafe { std::slice::from_raw_parts_mut(b as *mut u8, c as usize) };
     return save_file_data(a.to_str().unwrap(), b);
 }
 
-extern "C" fn custom_load_file_data_callback(a: *const u8, b: *mut i32) -> *mut u8 {
+extern "C" fn custom_load_file_data_callback(a: *const i8, b: *mut i32) -> *mut u8 {
     let load_file_data = load_file_data_callback().unwrap();
     let a = unsafe { CStr::from_ptr(a) };
     let b = unsafe { b.as_mut().unwrap() };
@@ -117,18 +117,18 @@ extern "C" fn custom_load_file_data_callback(a: *const u8, b: *mut i32) -> *mut 
     }
 }
 
-extern "C" fn custom_save_file_text_callback(a: *const u8, b: *mut u8) -> bool {
+extern "C" fn custom_save_file_text_callback(a: *const i8, b: *mut i8) -> bool {
     let save_file_text = save_file_text_callback().unwrap();
     let a = unsafe { CStr::from_ptr(a) };
     let b = unsafe { CStr::from_ptr(b) };
     return save_file_text(a.to_str().unwrap(), b.to_str().unwrap());
 }
-extern "C" fn custom_load_file_text_callback(a: *const u8) -> *mut u8 {
+extern "C" fn custom_load_file_text_callback(a: *const i8) -> *mut i8 {
     let load_file_text = load_file_text_callback().unwrap();
     let a = unsafe { CStr::from_ptr(a) };
     let st = load_file_text(a.to_str().unwrap());
     let oh = Box::leak(Box::new(CString::new(st).unwrap()));
-    oh.as_ptr() as *mut u8
+    oh.as_ptr() as *mut i8
 }
 
 extern "C" fn custom_audio_stream_callback(a: *mut c_void, b: u32) {
