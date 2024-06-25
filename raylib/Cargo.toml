@@ -1,5 +1,5 @@
 [package]
-name = "raylib"
+name = "raylib-cross"
 version = "5.0.1"
 authors = ["DeltaPHC <phclem@protonmail.com>"]
 license = "Zlib"
